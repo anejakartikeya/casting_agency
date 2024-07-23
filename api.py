@@ -3,13 +3,17 @@ from flask import Flask, request, jsonify, abort
 from sqlalchemy import exc
 import json
 from flask_cors import CORS
+import traceback
 
-from .database.models import setup_db, Actor, Movie
-from .auth.auth import AuthError, requires_auth
+from models import setup_db, Actor, Movie, db_drop_and_create_all
+from auth import AuthError, requires_auth
 
 app = Flask(__name__)
 setup_db(app)
 CORS(app)
+
+with app.app_context():
+    db_drop_and_create_all()
 
 # ROUTES
 '''
@@ -18,12 +22,11 @@ CORS(app)
         get all the details about all actors
 '''
 @app.route('/actors', methods=['GET'])
-@requires_auth('get:actor')
 def get_actors():
     try:
         return jsonify({
             'success': True,
-            'drinks': [actor.__repr__() for actor in Actor.query.all()]
+            'actors': [actor.__repr__() for actor in Actor.query.all()]
         }), 200
     except Exception as e:
         return jsonify({
@@ -43,7 +46,7 @@ def get_movies():
     try:
         return jsonify({
             'success': True,
-            'drinks': [movie.__repr__() for movie in Movie.query.all()]
+            'movies': [movie.__repr__() for movie in Movie.query.all()]
         }), 200
     except Exception as e:
         return jsonify({
@@ -113,8 +116,7 @@ def delete_movie(id):
         create a new actor in the database
 '''
 @app.route('/actors', methods=['POST'])
-@requires_auth('post:actor')
-def create_actor(id):
+def create_actor():
     data = request.get_json()
     name = data.get('name')
     age = data.get('age')
@@ -127,7 +129,9 @@ def create_actor(id):
             'success': True,
             'id': actor.id
         }), 200
-    except:
+    except Exception as e:
+        return traceback.format_exc(), 500
+
         return jsonify({
             'success': False,
             'error': "An error occurred"

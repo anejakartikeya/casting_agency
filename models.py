@@ -3,9 +3,13 @@ from sqlalchemy import Column, String, Integer
 from flask_sqlalchemy import SQLAlchemy
 import json
 
-database_filename = "database.db"
-project_dir = os.path.dirname(os.path.abspath(__file__))
-database_path = "sqlite:///{}".format(os.path.join(project_dir, database_filename))
+
+username = 'postgres'
+password = 'create09'
+hostname = 'localhost'
+database_name = 'casting_agency'
+
+database_path = f'postgresql://{username}:{password}@{hostname}/{database_name}'
 
 db = SQLAlchemy()
 
@@ -27,7 +31,6 @@ db_drop_and_create_all()
     !!NOTE you can change the database_filename variable to have multiple verisons of a database
 '''
 def db_drop_and_create_all():
-    db.drop_all()
     db.create_all()
 # ROUTES
 
