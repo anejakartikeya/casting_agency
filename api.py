@@ -22,6 +22,7 @@ with app.app_context():
         get all the details about all actors
 '''
 @app.route('/actors', methods=['GET'])
+@requires_auth("get:actor")
 def get_actors():
     try:
         return jsonify({
