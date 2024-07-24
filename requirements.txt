@@ -13,7 +13,10 @@ mccabe==0.6.1
 pycryptodome==3.20.0
 pylint==2.3.1
 six==1.12.0
+SQLAlchemy==1.4.46
 typed-ast==1.5.5
 Werkzeug==2.0
 wrapt==1.11.1
 Flask-Cors==3.0.8
+python-jose==3.3.0
+psycopg2-binary==2.9.6
