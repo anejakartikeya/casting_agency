@@ -23,7 +23,7 @@ with app.app_context():
 '''
 @app.route('/actors', methods=['GET'])
 @requires_auth("get:actor")
-def get_actors():
+def get_actors(id):
     try:
         return jsonify({
             'success': True,
@@ -43,7 +43,7 @@ def get_actors():
 '''
 @app.route('/movies', methods=['GET'])
 @requires_auth('get:movie')
-def get_movies():
+def get_movies(id):
     try:
         return jsonify({
             'success': True,
@@ -117,6 +117,7 @@ def delete_movie(id):
         create a new actor in the database
 '''
 @app.route('/actors', methods=['POST'])
+@requires_auth("post:actor")
 def create_actor():
     data = request.get_json()
     name = data.get('name')
@@ -264,3 +265,7 @@ def auth_error(ex):
     response = jsonify(ex.error)
     response.status_code = ex.status_code
     return response
+
+
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', port=5000)
