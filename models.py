@@ -4,13 +4,6 @@ from flask_sqlalchemy import SQLAlchemy
 import json
 
 
-username = 'postgresql_casting_agency_user'
-password = 'XJBOKXhSdqLkONWD0DHtq5cSea7zFBGY'
-hostname = 'dpg-cqffag1u0jms73abpucg-a:5432'
-database_name = 'postgresql_casting_agency'
-
-database_path = f'postgresql://{username}:{password}@{hostname}/{database_name}'
-
 database_path = "postgresql://postgresql_casting_agency_user:XJBOKXhSdqLkONWD0DHtq5cSea7zFBGY@dpg-cqffag1u0jms73abpucg-a.oregon-postgres.render.com/postgresql_casting_agency"
 
 
